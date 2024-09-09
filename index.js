@@ -1,23 +1,41 @@
 var pdf = require("html-pdf");
 
-var nomeDoUsuario = "Diego";
-var curso = "Desenvolvimento Sistemas";
-var categoria = "TI";
+var nomeDoAluno = "Diego";
+var curso = "Desenvolvimento de Sistemas";
+var materias = [
+  { nome: "Programação Web", nota: 9 },
+  { nome: "Banco de Dados", nota: 8.5 },
+  { nome: "Desenvolvimento Mobile", nota: 9.2 },
+  { nome: "Algoritmos", nota: 8.8 },
+];
 
 var conteudo = `
-<h1 style='color: red'> TURMA 3A<h1>
+<h1 style='color: blue'>Boletim Escolar - Senai</h1>
 <hr>
-<p>Modelo de PDF</p>
-<p>Nome: ${nomeDoUsuario} </p>
-<p>Curso: ${curso} </p>
-<p>Categoria: ${categoria} </p>
-<img src='https://img.freepik.com/vetores-gratis/empresario-elegante-usando-personagem-de-laptop_18591-82588.jpg?t=st=1725635753~exp=1725639353~hmac=5fafed5068302d2091f6a048f9d94acd37ff8d36d0b41a00e0de49a1770ef785&w=360'/>
-`
+<p>Aluno: ${nomeDoAluno}</p>
+<p>Curso: ${curso}</p>
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>Matéria</th>
+      <th>Nota</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${materias.map(materia => `
+      <tr>
+        <td>${materia.nome}</td>
+        <td>${materia.nota}</td>
+      </tr>
+    `).join('')}
+  </tbody>
+</table>
+<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShgN0GsxluYMvpBoiNswxvk7WBb0QDEiy-ZQ&s' alt='Logo Senai' style='width: 100px; margin-top: 20px'/>`;
 
-pdf.create(conteudo,{}).toFile("./meupdf.pdf",(err, res) => {
-if(err){
-console.log("UM ERRO ACONTECEU: (");
-}else{
-console.log(res);
-}
-})
+pdf.create(conteudo, {}).toFile("./boletim.pdf", (err, res) => {
+  if (err) {
+    console.log("Um erro aconteceu: (", err);
+  } else {
+    console.log(res);
+  }
+});
